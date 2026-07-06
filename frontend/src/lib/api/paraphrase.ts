@@ -68,7 +68,7 @@ export async function getParaphrase(
   await new Promise((resolve) => setTimeout(resolve, randomDelay()))
 
   const seedMatch = findSeedTerm(term)
-  const explanation = seedMatch ? seedMatch.explanation : FALLBACK_EXPLANATION
+  const explanation = seedMatch ? seedMatch.explanations[level] : FALLBACK_EXPLANATION
 
   cache[cacheKey] = explanation
   persistCache(cache)
