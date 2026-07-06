@@ -6,6 +6,7 @@ import SignupPage from './routes/SignupPage'
 import ComingSoonPage from './routes/ComingSoonPage'
 import HomePage from './features/home/HomePage'
 import ArticleReaderPage from './features/reader/ArticleReaderPage'
+import SettingsPage from './routes/SettingsPage'
 
 function App() {
   return (
@@ -24,7 +25,7 @@ function App() {
             <Route path="/top-movers" element={<ComingSoonPage title="급상승 종목" />} />
             <Route path="/portfolio" element={<ComingSoonPage title="포트폴리오" />} />
             <Route path="/insights" element={<ComingSoonPage title="AI 투자 인사이트" />} />
-            <Route path="/settings" element={<ComingSoonPage title="설정" />} />
+            <Route path="/settings" element={<SettingsPage />} />
           </Route>
         </Route>
 

@@ -1,8 +1,10 @@
 import { useMemo } from 'react'
-import { SEED_TERM_LIST } from '../features/paraphrase/seedTerms'
+import { getHighlightTermList } from '../features/paraphrase/seedTerms'
+import type { Level } from '../types/auth'
 
 interface HighlightTextProps {
   text: string
+  level: Level
   onTermClick: (term: string) => void
 }
 
@@ -15,12 +17,14 @@ function buildTermRegex(terms: string[]): RegExp | null {
   return new RegExp(`(${terms.map(escapeRegExp).join('|')})`, 'g')
 }
 
-// 스마트 하이라이트 — seed 금융 용어 사전(SEED_TERM_LIST)과 일치하는 부분을
-// 클릭 가능한 span 으로 감싼다(primary/100 배경 + primary/700 밑줄, PLAN.md §6).
+// 스마트 하이라이트 — seed 금융 용어 사전과 일치하는 부분을 클릭 가능한 span 으로
+// 감싼다(primary/100 배경 + primary/700 밑줄, PLAN.md §6). 하이라이트 대상 자체가
+// level 에 따라 달라진다(getHighlightTermList — advanced 는 기초 용어 일부 제외).
 // 클릭하면 onTermClick 으로 매칭된 용어 원문을 그대로 올려보낸다.
-function HighlightText({ text, onTermClick }: HighlightTextProps) {
-  const termSet = useMemo(() => new Set(SEED_TERM_LIST), [])
-  const regex = useMemo(() => buildTermRegex(SEED_TERM_LIST), [])
+function HighlightText({ text, level, onTermClick }: HighlightTextProps) {
+  const terms = useMemo(() => getHighlightTermList(level), [level])
+  const termSet = useMemo(() => new Set(terms), [terms])
+  const regex = useMemo(() => buildTermRegex(terms), [terms])
 
   if (!regex) {
     return <>{text}</>

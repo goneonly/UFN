@@ -9,6 +9,7 @@ interface AuthState {
   login: (email: string, password: string) => Promise<void>
   signup: (email: string, password: string, level?: Level) => Promise<void>
   logout: () => void
+  updateLevel: (level: Level) => void
 }
 
 export const useAuthStore = create<AuthState>()(
@@ -25,6 +26,9 @@ export const useAuthStore = create<AuthState>()(
         set({ isAuthenticated: true, user })
       },
       logout: () => set({ isAuthenticated: false, user: null }),
+      // 설정 화면에서 레벨 변경 시 호출 — persist 미들웨어가 localStorage 에도 반영한다.
+      updateLevel: (level) =>
+        set((state) => (state.user ? { user: { ...state.user, level } } : state)),
     }),
     { name: 'ufn-auth' },
   ),

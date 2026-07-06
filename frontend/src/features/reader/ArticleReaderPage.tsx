@@ -83,7 +83,7 @@ function ArticleReaderPage() {
       <div className="mt-6 space-y-4 text-base leading-relaxed text-ink">
         {paragraphs.map((paragraph, index) => (
           <p key={index}>
-            <HighlightText text={paragraph} onTermClick={handleTermClick} />
+            <HighlightText text={paragraph} level={level} onTermClick={handleTermClick} />
           </p>
         ))}
       </div>
